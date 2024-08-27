@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/gocolly/colly"
 )
@@ -53,6 +54,18 @@ func main() {
 
 		stocks = append(stocks, stock)
 	})
+	c.Wait()
 
-	c.Visit("https://finance.yahoo.com/qutote/" + t + "/")
+	for _, t := range ticker {
+		c.Visit("https://finance.yahoo.com/qutote/" + t + "/")
+	}
+
+	fmt.Println(stocks)
+
+	file, err := os.Create("stocks.csv")
+	if err != nil {
+		log.Fatal("Failed to create output csv file", err)
+	}
+	defer file.Close()
+
 }
