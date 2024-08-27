@@ -58,7 +58,10 @@ func main() {
 	c.Wait()
 
 	for _, t := range ticker {
-		c.Visit("https://finance.yahoo.com/qutote/" + t + "/")
+		err := c.Visit("https://finance.yahoo.com/quote/" + t + "/")
+		if err != nil {
+			log.Println("Failed to visit page for ticker:", t, err)
+		}
 	}
 
 	fmt.Println(stocks)
