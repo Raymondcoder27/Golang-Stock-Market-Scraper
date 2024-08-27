@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/csv"
 	"fmt"
 	"log"
 	"os"
@@ -68,4 +69,23 @@ func main() {
 	}
 	defer file.Close()
 
+	writer := csv.NewWriter(file)
+
+	headers := []string{
+		"company",
+		"price",
+		"change",
+	}
+	writer.Write(headers)
+
+	for _, stock := range stocks {
+		record := []string{
+			stock.company,
+			stock.price,
+			stock.change,
+		}
+		writer.Write(record)
+
+		defer writer.Flush()
+	}
 }
